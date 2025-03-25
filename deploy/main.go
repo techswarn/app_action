@@ -107,7 +107,6 @@ func (d *deployer) createSpec(ctx context.Context) (*godo.AppSpec, error) {
 
 // deploy deploys the app and waits for it to be live.
 func (d *deployer) deploy(ctx context.Context, spec *godo.AppSpec) (*godo.App, error) {
-	fmt.Printf("spec: %v\n", spec)
 	// Either create or update the app.
 	app, err := utils.FindAppByName(ctx, d.apps, spec.GetName())
 	if err != nil {
@@ -115,6 +114,7 @@ func (d *deployer) deploy(ctx context.Context, spec *godo.AppSpec) (*godo.App, e
 	}
 	if app == nil {
 		d.action.Infof("app %q does not exist yet, creating...", spec.Name)
+		d.action.Debugf("app spec: %v", spec)
 		app, _, err = d.apps.Create(ctx, &godo.AppCreateRequest{Spec: spec, ProjectID: d.inputs.projectID})
 		if err != nil {
 			return nil, fmt.Errorf("failed to create app: %w", err)
