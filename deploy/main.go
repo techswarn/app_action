@@ -115,7 +115,7 @@ func (d *deployer) deploy(ctx context.Context, spec *godo.AppSpec) (*godo.App, e
 	if app == nil {
 		d.action.Infof("app %q does not exist yet, creating... . .", spec.Name)
 		specDetails := spec.GetSpec()
-		d.action.Infof("app spec: %#v", &specDetails)
+		d.action.Infof("app spec: %#v", &specDetails.Services.ImageSourceSpec)
 		app, _, err = d.apps.Create(ctx, &godo.AppCreateRequest{Spec: spec, ProjectID: d.inputs.projectID})
 		if err != nil {
 			return nil, fmt.Errorf("failed to create app: %w", err)
